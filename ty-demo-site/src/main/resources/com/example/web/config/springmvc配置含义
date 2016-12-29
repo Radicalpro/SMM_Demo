@@ -1,0 +1,15 @@
+
+
+在我们进行 spring-servlet 进行开发的时候，经常会遇到配置文件配置的问题，要彻底的解决这个问题，我们需要了解 springMVC 设计的基本架构
+1.SpringMVC 的配置分为两部分 application.xml 和 spring-servlet.xml
+2.两个配置文件的作用和配置位置
+2.1.application.xml ：对应的是系统级别的配置，作用范围是系统上下文。
+2.2.spring-servlet.xml：对应的是 controller 级别的配置，作用范围是控制层上下文。
+3.它们在web.xml 中的配置
+3.1.因为 application.xml 是系统级别的上下文，所以它的初始化需要放到 web.xml 中的<context-param>标签中，同时其他的类似定时任务的配置文件等等都是放在这个标签下进行初始化的。
+3.2.因为spring-servlet.xml只是 controller 级别的上下文，说白了就是 servlet 级别的初始化，它不涉及到除了转发之外的任何实体，所以它的作用范围仅仅限制在 servlet 级别，
+    所以它的初始化应该是跟spring 的 DispatcherServlet 初始化在一起，所以就是在 <servlet> 标签中初始化的。它有一个默认值就是【/WEB-INF/remoting-servlet.xml 】，
+    注意配置文件的对应的名称是【 servlet-name】-servlet.xml，所以如果你没有给servlet 制定配置文件的位置，并且在默认位置下也没有配置文件，那么系统启动的时候就会报错。
+
+注意：对于 servlet配置文件里面应该初始化的东西，除了视图的解析方式、静态资源文件的存放位置、controller的初始化方式之外，其他的都不应该放在 servlet 配置文件中，
+    应为它只负责 请求的转发，返回结果的解析以及静态资源文件的解析，其他的对象的初始化，定时任务...都不应该放到这个配置文件下进行管理。
