@@ -63,6 +63,3 @@ SET FOREIGN_KEY_CHECKS = 1;
 
 ```
 
-## 欢迎交流 
-    1016579848@qq.com
-
